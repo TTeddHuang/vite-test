@@ -1,3 +1,5 @@
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import './assets/main.css'
 
 import { createApp } from 'vue'
@@ -5,30 +7,13 @@ import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
+import MyModal from './components/MyModal.vue'
 
-import axios from 'axios'
 
 const app = createApp(App)
 
-const a = 1
-const b = 2
-console.log(a === b)
+app.component('MyModal',MyModal)
 
-
-axios
-  .get('/user?ID=12345')
-  .then(function (response) {
-    // handle success
-
-    console.log(response)
-  })
-  .catch(function (error) {
-    // handle error
-    console.log(error)
-  })
-  .finally(function () {
-    // always executed
-  })
 
 app.use(createPinia())
 app.use(router)

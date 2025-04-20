@@ -1,31 +1,31 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { Modal } from 'bootstrap'
 
 const modalRef = ref(null)
 let myModal
 
+const props = defineProps({
+  show: Boolean
+})
+const emit = defineEmits(['update:show'])
+
 onMounted(() => {
-  myModal = new Modal(modalRef.value, {
-    backdrop: false
-  })
+  myModal = new Modal(modalRef.value)
+
+  // 加入監聽器後開始出錯
+  modalRef.value.addEventListener('hidden.bs.modal', () =>
+    emit('update:show', false)
+  )
 })
 
-const openModal = () => myModal.show()
-
-const closeModal = () => myModal.hide()
-
-const submitData = () => {
-  console.log('資料已送出')
-  myModal.hide()
-}
+watch(
+  () => props.show,
+  value => (value ? myModal.show() : myModal.hide())
+)
 </script>
 
 <template>
-  <!-- Button trigger modal -->
-  <button type="button" class="btn btn-primary" @click="openModal">
-    打開 Modal
-  </button>
   <!-- Modal -->
   <div
     ref="modalRef"
@@ -37,22 +37,13 @@ const submitData = () => {
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5">Modal 標題</h1>
-          <button
-            type="button"
-            class="btn-close"
-            aria-label="Close"
-            @click="closeModal"
-          ></button>
+          <h1 class="modal-title fs-5">我的天啊</h1>
+          <button type="button" class="btn-close" aria-label="Close"></button>
         </div>
-        <div class="modal-body">Modal 內容</div>
+        <div class="modal-body">你還真的按...</div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" @click="closeModal">
-            取消
-          </button>
-          <button type="button" class="btn btn-success" @click="submitData">
-            確定
-          </button>
+          <button type="button" class="btn btn-danger">不行嗎？</button>
+          <button type="button" class="btn btn-success">不然呢？</button>
         </div>
       </div>
     </div>

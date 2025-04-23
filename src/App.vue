@@ -4,7 +4,10 @@ const isOpen = ref(false)
 </script>
 
 <template>
-  <MyModal :show="isOpen"></MyModal>
+  <MyModal v-model:show="isOpen">
+    <template #header>App.vue的header</template>
+    <template #default>App.vue的content</template>
+  </MyModal>
 
   <!-- Button trigger modal -->
   <button type="button" class="btn btn-primary" @click="isOpen = true">
